@@ -58,7 +58,7 @@ function cloneObject(obj){
   return obj;
 }
 
-function findChild(children: any[], childType: string) {
+function findChild(children: any, childType: string) {
   let found: any;
   let childrenArr = React.Children.toArray(children);
   for (let i=0; i<childrenArr.length; i++) {

@@ -5,6 +5,7 @@ var path = require("path");
 var webpack = require('webpack');
 
 var config = {
+  mode: process.env.NODE_ENV || "development",
   entry: './src/index.tsx',
   output: {
     path: path.join(__dirname, 'dist'),

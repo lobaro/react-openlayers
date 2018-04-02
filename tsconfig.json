@@ -25,7 +25,11 @@
     "baseUrl": "src",
     "paths": {
       "react-openlayers": ["./index"]
-    }
+    },
+    "typeRoots": [
+      "./src/@types/",
+      "./node_modules/@types/"
+    ]
   },
   "types": [
     "openlayers",

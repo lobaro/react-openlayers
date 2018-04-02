@@ -1,6 +1,13 @@
 import * as React from "react";
 import * as ReactDOM from "react-dom";
-import * as ol from 'openlayers';
+import olAttribution from "ol/attribution";
+import olFormatTopoJSON from "ol/format/topojson";
+import olTileGrid from "ol/tilegrid";
+import olStyleStyle from "ol/style/style";
+import olStyleFill from "ol/style/fill";
+import olStyleStroke from "ol/style/stroke";
+import olSourceVectorTile from "ol/source/vectortile";
+import olProj from "ol/proj";
 import * as olms from 'ol-mapbox-style'; // in case we use olms
 import * as qwest from 'qwest';          // in case we need to do ajax call
 import {
@@ -11,41 +18,41 @@ import {
 
 var key = 'mapzen-2pRGhe5';
 
-var attribution = [new ol.Attribution({
+var attribution = [new olAttribution({
   html: '&copy; OpenStreetMap contributors, Who’s On First, Natural Earth, and openstreetmapdata.com'
 })];
-var format = new ol.format.TopoJSON();
-var tileGrid = ol.tilegrid.createXYZ({maxZoom: 19});
+var format = new olFormatTopoJSON();
+var tileGrid = olTileGrid.createXYZ({maxZoom: 19});
 var roadStyleCache = {};
 var roadColor = {
   'major_road': '#776',
   'minor_road': '#ccb',
   'highway': '#f39'
 };
-var buildingStyle = new ol.style.Style({
-  fill: new ol.style.Fill({
+var buildingStyle = new olStyleStyle({
+  fill: new olStyleFill({
     color: '#666',
     opacity: 0.4
   }),
-  stroke: new ol.style.Stroke({
+  stroke: new olStyleStroke({
     color: '#444',
     width: 1
   })
 });
 
-var source1 = new ol.source.VectorTile({
+var source1 = new olSourceVectorTile({
               projection: undefined,
               attributions: attribution,
               format: format,
               tileGrid: tileGrid,
               url: 'https://tile.mapzen.com/mapzen/vector/v1/water/{z}/{x}/{y}.topojson?api_key=' + key
             });
-var style1 = new ol.style.Style({
-              fill: new ol.style.Fill({
+var style1 = new olStyleStyle({
+              fill: new olStyleFill({
                 color: '#9db9e8'
               })
             });
-var source2 = new ol.source.VectorTile({
+var source2 = new olSourceVectorTile({
               projection: undefined,
               attributions: attribution,
               format: format,
@@ -67,8 +74,8 @@ var style2 = function(feature) {
                   color = roadColor[kind];
                   width = kind == 'highway' ? 1.5 : 1;
                 }
-                style = new ol.style.Style({
-                  stroke: new ol.style.Stroke({
+                style = new olStyleStyle({
+                  stroke: new olStyleStroke({
                     color: color,
                     width: width
                   }),
@@ -78,7 +85,7 @@ var style2 = function(feature) {
               }
               return style;
             };
-var source3 =  new ol.source.VectorTile({
+var source3 =  new olSourceVectorTile({
               projection: undefined,
               attributions: attribution,
               format: format,
@@ -98,7 +105,7 @@ export class OSMVectorTiles extends React.Component<any,any> {
   render(){
     return (
       <div>
-        <Map view={{center: ol.proj.fromLonLat([-74.0064, 40.7142]), maxZoom: 19, zoom: 15 }}>
+        <Map view={{center: olProj.fromLonLat([-74.0064, 40.7142]), maxZoom: 19, zoom: 15 }}>
           <Layers>
             <layer.VectorTile source={source1} style={style1} />
             <layer.VectorTile source={source2} style={style2} />
@@ -107,7 +114,7 @@ export class OSMVectorTiles extends React.Component<any,any> {
         </Map>
         <a href="https://github.com/allenhwkim/react-openlayers/blob/master/app/layers/osm-vector-tiles.tsx">Source Code</a>
         <pre>{`
-        <Map view={{center: ol.proj.fromLonLat([-74.0064, 40.7142]), maxZoom: 19, zoom: 15 }}>
+        <Map view={{center: olProj.fromLonLat([-74.0064, 40.7142]), maxZoom: 19, zoom: 15 }}>
           <Layers>
             <layer.VectorTile source={source1} style={style1} />
             <layer.VectorTile source={source2} style={style2} />

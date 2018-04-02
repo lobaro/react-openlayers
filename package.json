@@ -7,7 +7,7 @@
   "module": "dist/index.js",
   "typings": "dist/index.d.ts",
   "scripts": {
-    "start": "cross-env NODE_ENV=development webpack-dev-server --quiet --port 9001 --content-base app --config app/webpack.config --open",
+    "start": "cross-env NODE_ENV=development webpack-dev-server --port 9001 --content-base app --config app/webpack.config --open",
     "clean": "rimraf dist",
     "build": "npm-run-all --serial clean build:umd build:app",
     "build:umd": "cross-env NODE_ENV=production webpack",
@@ -44,7 +44,6 @@
     "html-loader": "^0.4.5",
     "node-sass": "^4.5.0",
     "npm-run-all": "^3.1.2",
-    "openlayers": "^4.0.1",
     "raw-loader": "^0.5.1",
     "react": "^15.4.2",
     "react-dom": "^15.4.2",

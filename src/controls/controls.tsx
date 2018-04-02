@@ -1,5 +1,5 @@
 import * as React from 'react';
-import * as ol from 'openlayers';
+import olMap from 'ol/map';
 
 import {Util} from '../util';
 
@@ -30,5 +30,5 @@ export class Controls extends React.Component<any, any> {
 }
 
 Controls['contextTypes'] = {
-  map: React.PropTypes.instanceOf(ol.Map)
+  map: React.PropTypes.instanceOf(olMap)
 };

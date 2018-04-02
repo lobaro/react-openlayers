@@ -1,11 +1,12 @@
 import * as React from 'react';
-import * as ol from 'openlayers';
+import olMap from 'ol/map';
+import olInteractionKeyboardZoom from 'ol/interaction/keyboardzoom';
 import {Util} from "../util";
 import {Map} from '../map';
 
 export class KeyboardZoom extends React.Component<any, any> {
 
-  interaction: ol.interaction.KeyboardZoom;
+  interaction: olInteractionKeyboardZoom;
 
   options: any = {
     condition: undefined,
@@ -26,7 +27,7 @@ export class KeyboardZoom extends React.Component<any, any> {
   componentDidMount () {
     let options = Util.getOptions(Object['assign'](this.options, this.props));
     console.log('options', options);
-    this.interaction = new ol.interaction.KeyboardZoom(options);
+    this.interaction = new olInteractionKeyboardZoom(options);
     this.context.mapComp.interactions.push(this.interaction)
     
     let olEvents = Util.getEvents(this.events, this.props);
@@ -39,7 +40,7 @@ export class KeyboardZoom extends React.Component<any, any> {
     if(nextProps !== this.props){
       this.context.mapComp.map.removeInteraction(this.interaction);
       let options = Util.getOptions(Object['assign'](this.options, nextProps));
-      this.interaction = new ol.interaction.KeyboardZoom(options);
+      this.interaction = new olInteractionKeyboardZoom(options);
       this.context.mapComp.map.addInteraction(this.interaction);
 
       let olEvents = Util.getEvents(this.events, this.props);
@@ -57,5 +58,5 @@ export class KeyboardZoom extends React.Component<any, any> {
 
 KeyboardZoom['contextTypes'] = {
   mapComp: React.PropTypes.instanceOf(Map),
-  map: React.PropTypes.instanceOf(ol.Map)
+  map: React.PropTypes.instanceOf(olMap)
 };

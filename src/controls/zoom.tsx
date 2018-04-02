@@ -1,11 +1,12 @@
 import * as React from 'react';
-import * as ol from 'openlayers';
+import olMap from 'ol/map';
+import olControlZoom from 'ol/control/zoom';
 import {Util} from '../util';
 import {Map} from '../map';
 
 export class Zoom extends React.Component<any, any> {
 
-  control: ol.control.Zoom;
+  control: olControlZoom;
 
   options: any = {
     duration: undefined,
@@ -32,7 +33,7 @@ export class Zoom extends React.Component<any, any> {
 
   componentDidMount () {
     let options = Util.getOptions(Object['assign'](this.options, this.props));
-    this.control = new ol.control.Zoom(options);
+    this.control = new olControlZoom(options);
     this.context.mapComp.controls.push(this.control)
 
     let olEvents = Util.getEvents(this.events, this.props);
@@ -45,5 +46,5 @@ export class Zoom extends React.Component<any, any> {
 
 Zoom['contextTypes'] = {
   mapComp: React.PropTypes.instanceOf(Map),
-  map: React.PropTypes.instanceOf(ol.Map)
+  map: React.PropTypes.instanceOf(olMap)
 };

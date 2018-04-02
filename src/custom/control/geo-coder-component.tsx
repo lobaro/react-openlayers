@@ -1,5 +1,5 @@
 import * as React from 'react';
-import * as ol from 'openlayers';
+import olMap from 'ol/map';
 import {GeoCoderControl} from './geo-coder-control';
 import {Util} from '../../util';
 import {Map} from '../../map';
@@ -43,5 +43,5 @@ export class GeoCoderComponent extends React.Component<any, any> {
 
 GeoCoderComponent['contextTypes'] = {
   mapComp: React.PropTypes.instanceOf(Map),
-  map: React.PropTypes.instanceOf(ol.Map)
+  map: React.PropTypes.instanceOf(olMap)
 };

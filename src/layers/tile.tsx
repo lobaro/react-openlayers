@@ -1,11 +1,15 @@
 import * as React from 'react';
-import * as ol from 'openlayers';
+
+import olMap from 'ol/map';
+import olSourceOSM from 'ol/source/osm';
+import olLayerTile from 'ol/layer/tile';
+
 import {Util} from '../util';
 import {Map} from '../map';
 
 export class Tile extends React.Component<any, any> {
 
-  layer: ol.layer.Tile;
+  layer: olLayerTile;
 
   options: any = {
     zIndex: undefined,
@@ -47,8 +51,8 @@ export class Tile extends React.Component<any, any> {
 
   componentDidMount () {
     let options = Util.getOptions(Object.assign(this.options, this.props));
-    options.source = options.source || new ol.source.OSM();
-    this.layer = new ol.layer.Tile(options);
+    options.source = options.source || new olSourceOSM();
+    this.layer = new olLayerTile(options);
     if(this.props.zIndex){
       this.layer.setZIndex(this.props.zIndex);
     }
@@ -64,7 +68,7 @@ export class Tile extends React.Component<any, any> {
     if(nextProps !== this.props){
       let options = Util.getOptions(Object.assign(this.options, this.props));
       this.context.mapComp.map.removeLayer(this.layer);
-      this.layer = new ol.layer.Tile(options);
+      this.layer = new olLayerTile(options);
       if(this.props.zIndex){
         this.layer.setZIndex(this.props.zIndex);
       }
@@ -85,5 +89,5 @@ export class Tile extends React.Component<any, any> {
 
 Tile['contextTypes'] = {
   mapComp: React.PropTypes.instanceOf(Map),
-  map: React.PropTypes.instanceOf(ol.Map)
+  map: React.PropTypes.instanceOf(olMap)
 };

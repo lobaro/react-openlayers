@@ -1,14 +1,22 @@
 import * as React from "react";
 import * as ReactDOM from "react-dom";
-import * as ol from 'openlayers';
+
+import olSourceVector from 'ol/source/vector';
+import olStyleStyle from 'ol/style/style';
+import olStyleFill from 'ol/style/fill';
+import olStyleCircle from 'ol/style/circle';
+import olStyleText from 'ol/style/text';
+import olStyleStroke from 'ol/style/stroke';
+import olStyleRegularShape from 'ol/style/regularshape';
+import olExtent from 'ol/extent';
 
 export class ClusterStyle {
 
   maxFeatureCount: number;
   currentResolution: any;
-  source: ol.source.Vector;
+  source: olSourceVector;
 
-  constructor(vectorSource: ol.source.Vector) {
+  constructor(vectorSource: olSourceVector) {
     this.source = vectorSource;
   }
 
@@ -20,17 +28,17 @@ export class ClusterStyle {
     var style;
     var size = feature.get('features').length;
     if (size > 1) {
-      style = new ol.style.Style({
-        image: new ol.style.Circle({
+      style = new olStyleStyle({
+        image: new olStyleCircle({
           radius: feature.get('radius'),
-          fill: new ol.style.Fill({
+          fill: new olStyleFill({
             color: [255, 153, 0, Math.min(0.8, 0.4 + (size / this.maxFeatureCount))]
           })
         }),
-        text: new ol.style.Text({
+        text: new olStyleText({
           text: size.toString(),
-          fill: new ol.style.Fill({ color: '#fff' }),
-          stroke: new ol.style.Stroke({ color: 'rgba(0, 0, 0, 0.6)', width: 3 })
+          fill: new olStyleFill({ color: '#fff' }),
+          stroke: new olStyleStroke({ color: 'rgba(0, 0, 0, 0.6)', width: 3 })
         })
       });
     } else {
@@ -41,9 +49,9 @@ export class ClusterStyle {
   };
 
   selectStyleFunction = (feature) => {
-    var invisibleFill = new ol.style.Fill({ color: 'rgba(255, 255, 255, 0.01)' });
-    var styles = [new ol.style.Style({
-      image: new ol.style.Circle({
+    var invisibleFill = new olStyleFill({ color: 'rgba(255, 255, 255, 0.01)' });
+    var styles = [new olStyleStyle({
+      image: new olStyleCircle({
         radius: feature.get('radius'),
         fill: invisibleFill
       })
@@ -64,21 +72,21 @@ export class ClusterStyle {
     for (var i = features.length - 1; i >= 0; --i) {
       feature = features[i];
       var originalFeatures = feature.get('features');
-      var extent = ol.extent.createEmpty();
+      var extent = olExtent.createEmpty();
       var j, jj;
       for (j = 0, jj = originalFeatures.length; j < jj; ++j) {
-        ol.extent.extend(extent, originalFeatures[j].getGeometry().getExtent());
+        olExtent.extend(extent, originalFeatures[j].getGeometry().getExtent());
       }
       this.maxFeatureCount = Math.max(this.maxFeatureCount, jj);
-      radius = 0.25 * (ol.extent.getWidth(extent) + ol.extent.getHeight(extent)) /
+      radius = 0.25 * (olExtent.getWidth(extent) + olExtent.getHeight(extent)) /
           resolution;
       feature.set('radius', radius);
     }
   }
 
   private createClusterStyle(feature) {
-    var clusterFill = new ol.style.Fill({ color: 'rgba(255, 153, 0, 0.8)' });
-    var clusterStroke = new ol.style.Stroke({ color: 'rgba(255, 204, 0, 0.2)', width: 1 });
+    var clusterFill = new olStyleFill({ color: 'rgba(255, 153, 0, 0.8)' });
+    var clusterStroke = new olStyleStroke({ color: 'rgba(255, 204, 0, 0.2)', width: 1 });
     // 2012_Earthquakes_Mag5.kml stores the magnitude of each earthquake in a
     // standards-violating <magnitude> tag in each Placemark.  We extract it
     // from the Placemark's name instead.
@@ -86,9 +94,9 @@ export class ClusterStyle {
     var magnitude = parseFloat(name.substr(2));
     var radius = 5 + 20 * (magnitude - 5);
 
-    return new ol.style.Style({
+    return new olStyleStyle({
       geometry: feature.getGeometry(),
-      image: new ol.style.RegularShape({
+      image: new olStyleRegularShape({
         radius1: radius,
         radius2: 3,
         points: 5,

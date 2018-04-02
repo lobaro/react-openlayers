@@ -1,11 +1,13 @@
 import * as React from 'react';
-import * as ol from 'openlayers';
+import olMap from 'ol/map';
+import olLayerVector from 'ol/layer/vector';
+import olLayerVectorTile from 'ol/layer/vectortile';
 import {Util} from "../util";
 import {Map} from '../map';
 
 export class VectorTile extends React.Component<any, any> {
 
-  layer: ol.layer.Vector;
+  layer: olLayerVectorTile;
 
   options: any = {
     renderBuffer: undefined,
@@ -50,7 +52,7 @@ export class VectorTile extends React.Component<any, any> {
 
   componentDidMount () {
     let options = Util.getOptions(Object.assign(this.options, this.props));
-    this.layer = new ol.layer.VectorTile(options);
+    this.layer = new olLayerVectorTile(options);
     if (this.options.callback) {
       this.options.callback(this.layer);
     }
@@ -69,7 +71,7 @@ export class VectorTile extends React.Component<any, any> {
     if(nextProps !== this.props){
       let options = Util.getOptions(Object.assign(this.options, this.props));
       this.context.mapComp.map.removeLayer(this.layer);
-      this.layer = new ol.layer.VectorTile(options);
+      this.layer = new olLayerVectorTile(options);
       if (this.options.callback) {
         this.options.callback(this.layer);
       }
@@ -93,5 +95,5 @@ export class VectorTile extends React.Component<any, any> {
 
 VectorTile['contextTypes'] = {
   mapComp: React.PropTypes.instanceOf(Map),
-  map: React.PropTypes.instanceOf(ol.Map)
+  map: React.PropTypes.instanceOf(olMap)
 };

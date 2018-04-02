@@ -1,11 +1,12 @@
 import * as React from 'react';
-import * as ol from 'openlayers';
+import olMap from 'ol/map';
+import olLayerImage from 'ol/layer/image';
 import {Util} from "../util";
 import {Map} from '../map';
 
 export class Image extends React.Component<any, any> {
 
-  layer: ol.layer.Image;
+  layer: olLayerImage;
 
   options: any = {
     opacity: undefined,
@@ -40,7 +41,7 @@ export class Image extends React.Component<any, any> {
 
   componentDidMount () {
     let options = Util.getOptions(Object['assign'](this.options, this.props));
-    this.layer = new ol.layer.Image(options);
+    this.layer = new olLayerImage(options);
     if(this.props.zIndex){
       this.layer.setZIndex(this.props.zIndex);
     }
@@ -56,7 +57,7 @@ export class Image extends React.Component<any, any> {
     if(nextProps !== this.props){
       let options = Util.getOptions(Object.assign(this.options, this.props));
       this.context.mapComp.map.removeLayer(this.layer);
-      this.layer = new ol.layer.Image(options);
+      this.layer = new olLayerImage(options);
       if(this.props.zIndex){
         this.layer.setZIndex(this.props.zIndex);
       }
@@ -77,5 +78,5 @@ export class Image extends React.Component<any, any> {
 
 Image['contextTypes'] = {
   mapComp: React.PropTypes.instanceOf(Map),
-  map: React.PropTypes.instanceOf(ol.Map)
+  map: React.PropTypes.instanceOf(olMap)
 };

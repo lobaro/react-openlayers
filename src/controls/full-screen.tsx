@@ -1,11 +1,12 @@
 import * as React from 'react';
-import * as ol from 'openlayers';
+import olMap from 'ol/map';
+import olControlFullScreen from 'ol/control/fullscreen';
 import {Util} from '../util';
 import {Map} from '../map';
 
 export class FullScreen extends React.Component<any, any> {
 
-  control: ol.control.FullScreen;
+  control: olControlFullScreen;
 
   options: any = {
     className: undefined,
@@ -28,7 +29,7 @@ export class FullScreen extends React.Component<any, any> {
 
   componentDidMount () {
     let options = Util.getOptions(Object['assign'](this.options, this.props));
-    this.control = new ol.control.FullScreen(options);
+    this.control = new olControlFullScreen(options);
     this.context.mapComp.controls.push(this.control)
 
     let olEvents = Util.getEvents(this.events, this.props);
@@ -41,5 +42,5 @@ export class FullScreen extends React.Component<any, any> {
 
 FullScreen['contextTypes'] = {
   mapComp: React.PropTypes.instanceOf(Map),
-  map: React.PropTypes.instanceOf(ol.Map)
+  map: React.PropTypes.instanceOf(olMap)
 };

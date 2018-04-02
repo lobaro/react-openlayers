@@ -1,11 +1,12 @@
 import * as React from 'react';
-import * as ol from 'openlayers';
+import olMap from 'ol/map';
+import olInteractionTranslate from 'ol/interaction/translate';
 import {Util} from "../util";
 import {Map} from '../map';
 
 export class Translate extends React.Component<any, any> {
 
-  interaction: ol.interaction.Translate;
+  interaction: olInteractionTranslate;
 
   options: any = {
     features: undefined,
@@ -28,7 +29,7 @@ export class Translate extends React.Component<any, any> {
 
   componentDidMount () {
     let options = Util.getOptions(Object['assign'](this.options, this.props));
-    this.interaction = new ol.interaction.Translate(options);
+    this.interaction = new olInteractionTranslate(options);
     this.context.mapComp.interactions.push(this.interaction)
     
     let olEvents = Util.getEvents(this.events, this.props);
@@ -41,7 +42,7 @@ export class Translate extends React.Component<any, any> {
     if(nextProps !== this.props){
       this.context.mapComp.map.removeInteraction(this.interaction);
       let options = Util.getOptions(Object['assign'](this.options, nextProps));
-      this.interaction = new ol.interaction.Translate(options);
+      this.interaction = new olInteractionTranslate(options);
       this.context.mapComp.map.addInteraction(this.interaction);
 
       let olEvents = Util.getEvents(this.events, this.props);
@@ -59,5 +60,5 @@ export class Translate extends React.Component<any, any> {
 
 Translate['contextTypes'] = {
   mapComp: React.PropTypes.instanceOf(Map),
-  map: React.PropTypes.instanceOf(ol.Map)
+  map: React.PropTypes.instanceOf(olMap)
 };

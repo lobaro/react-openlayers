@@ -1,6 +1,5 @@
 import * as React from "react";
 import * as ReactDOM from "react-dom";
-import * as ol from 'openlayers';
 import {Router, Route, hashHistory, IndexRoute} from 'react-router';
 import {App} from './app';
 

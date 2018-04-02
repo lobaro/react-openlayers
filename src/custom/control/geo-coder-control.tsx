@@ -1,17 +1,19 @@
 import * as React from 'react';
-import * as ol from 'openlayers';
+import olControlControl from "ol/control/control";
+import olProj from "ol/proj";
 import {GeoCoder} from 'geo-coder';
 
 import './geo-coder.css';
 
 let element: HTMLElement = document.createElement('div');
 
-export class GeoCoderControl extends ol.control.Control {
+export class GeoCoderControl extends olControlControl {
   geoCoder: GeoCoder;
   eventListeners: any = {};
   expanded: boolean = false;
   buttonEl: HTMLButtonElement;
   autocompleteEl:  HTMLDivElement;
+  getMap: any; // @FIXME Some issue with the change to the latest OL 4.6.5
 
   constructor(options = {}) {
     super({element: element});
@@ -30,7 +32,7 @@ export class GeoCoderControl extends ol.control.Control {
   locate = (options: any) => {
     let lonLat: [number, number] = [parseFloat(options.lon), parseFloat(options.lat)];
     let projection = this.getMap().getView().getProjection();
-    let coord = ol.proj.transform(lonLat, 'EPSG:4326', projection);
+    let coord = olProj.transform(lonLat, 'EPSG:4326', projection);
     let view = this.getMap().getView();
     let duration = options.duration || 500;
     let resolution = options.resolution || 2.388657133911758;

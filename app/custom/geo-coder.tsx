@@ -1,6 +1,9 @@
 import * as React from "react";
 import * as ReactDOM from "react-dom";
-import * as ol from 'openlayers';
+import olFeature from "ol/feature";
+import olGeomPoint from "ol/geom/point";
+import olProj from "ol/proj";
+import olSourceVector from "ol/source/vector";
 import {
   interaction, layer, custom, control, //name spaces
   Interactions, Overlays, Controls,     //group
@@ -8,13 +11,13 @@ import {
 } from "react-openlayers";
 
 
-var iconFeature = new ol.Feature({
-  geometry: new ol.geom.Point(
-    ol.proj.transform([-72.0704, 46.678], 'EPSG:4326','EPSG:3857')
+var iconFeature = new olFeature({
+  geometry: new olGeomPoint(
+    olProj.transform([-72.0704, 46.678], 'EPSG:4326','EPSG:3857')
     ),
     name: 'Null Island'
   })
-var source = new ol.source.Vector({features: [iconFeature]});
+var source = new olSourceVector({features: [iconFeature]});
 var marker = new custom.style.MarkerStyle(
   'https://openlayers.org/en/v4.0.1/examples/data/icon.png'
 );
@@ -31,7 +34,7 @@ export class GeoCoder extends React.Component<any,any> {
 
   showPopup = (evt) => {
     this.overlay.setPosition(evt.coordinate);
-    var lonlat = ol.proj.transform(evt.coordinate, 'EPSG:3857', 'EPSG:4326');
+    var lonlat = olProj.transform(evt.coordinate, 'EPSG:3857', 'EPSG:4326');
     this.geoCoder.reverse(lonlat[0], lonlat[1]).then(result => {
       console.log('address...............', result.address)
       this.popup.setContents(`<b>${result.address}</b>`);
@@ -41,8 +44,8 @@ export class GeoCoder extends React.Component<any,any> {
 
   geocode = event => {
     let lat = parseFloat(event.detail.lat), lon = parseFloat(event.detail.lon);
-    let point = new ol.geom.Point(ol.proj.transform([lon, lat], 'EPSG:4326','EPSG:3857'));
-    let feature = new ol.Feature({geometry: point, name: 'foo'});
+    let point = new olGeomPoint(olProj.transform([lon, lat], 'EPSG:4326','EPSG:3857'));
+    let feature = new olFeature({geometry: point, name: 'foo'});
     source.clear();
     source.addFeature(feature);
     this.geocodeControl.locate({lon: lon, lat: lat, duration: 2000});

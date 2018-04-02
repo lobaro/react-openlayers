@@ -1,5 +1,8 @@
 import * as React from 'react';
-import * as ol from 'openlayers';
+import olMap from 'ol/map';
+import olView from 'ol/view';
+import olControl from 'ol/control';
+import olInteraction from 'ol/interaction';
 import {Util} from './util';
 import {Layers} from './layers/layers';
 import {layer} from './layers/index';
@@ -23,7 +26,7 @@ import './map.css';
  */
 export class Map extends React.Component<any, any> {
 
-  map: ol.Map;
+  map: olMap;
   mapDiv: any;
 
   layers: any[] = [];
@@ -43,7 +46,7 @@ export class Map extends React.Component<any, any> {
     setCenter: undefined,
     setZoom: undefined,
     setResolution: undefined,
-    view: new ol.View({center: [0, 0], zoom: 3}),
+    view: new olView({center: [0, 0], zoom: 3}),
     controls: undefined,
     interactions: undefined,
     layers: undefined,
@@ -79,19 +82,19 @@ export class Map extends React.Component<any, any> {
 
   componentDidMount() {
     let options = Util.getOptions(Object.assign(this.options, this.props));
-    !(options.view instanceof ol.View) && (options.view = new ol.View(options.view));
+    !(options.view instanceof olView) && (options.view = new olView(options.view));
 
     let controlsCmp = Util.findChild(this.props.children, 'Controls') || {};
     let interactionsCmp = Util.findChild(this.props.children, 'Interactions') || {};
 
-    options.controls = ol.control.defaults(controlsCmp.props).extend(this.controls);
-    options.interactions = ol.interaction.defaults(interactionsCmp.props).extend(this.interactions);
+    options.controls = olControl.defaults(controlsCmp.props).extend(this.controls);
+    options.interactions = olInteraction.defaults(interactionsCmp.props).extend(this.interactions);
 
     options.layers = this.layers;
     options.overlays = this.overlays;
     console.log('map options', options);
 
-    this.map = new ol.Map(options);
+    this.map = new olMap(options);
     this.map.setTarget(options.target || this.mapDiv);
 
     //regitster events
@@ -150,5 +153,5 @@ export class Map extends React.Component<any, any> {
 // Ref. https://facebook.github.io/react/docs/context.html#how-to-use-context
 Map['childContextTypes'] = {
   mapComp: React.PropTypes.instanceOf(Map),
-  map: React.PropTypes.instanceOf(ol.Map)
+  map: React.PropTypes.instanceOf(olMap)
 };

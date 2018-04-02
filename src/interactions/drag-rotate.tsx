@@ -1,11 +1,12 @@
 import * as React from 'react';
-import * as ol from 'openlayers';
+import olMap from 'ol/map';
+import olInteractionDragRotate from 'ol/interaction/dragrotate';
 import {Util} from "../util";
 import {Map} from '../map';
 
 export class DragRotate extends React.Component<any, any> {
 
-  interaction: ol.interaction.DragRotate;
+  interaction: olInteractionDragRotate;
 
   options: any = {
     condition: undefined,
@@ -25,7 +26,7 @@ export class DragRotate extends React.Component<any, any> {
   componentDidMount () {
     let options = Util.getOptions(Object['assign'](this.options, this.props));
     console.log('options', options);
-    this.interaction = new ol.interaction.DragRotate(options);
+    this.interaction = new olInteractionDragRotate(options);
     this.context.mapComp.interactions.push(this.interaction)
     
     let olEvents = Util.getEvents(this.events, this.props);
@@ -38,7 +39,7 @@ export class DragRotate extends React.Component<any, any> {
     if(nextProps !== this.props){
       this.context.mapComp.map.removeInteraction(this.interaction);
       let options = Util.getOptions(Object['assign'](this.options, nextProps));
-      this.interaction = new ol.interaction.DragRotate(options);
+      this.interaction = new olInteractionDragRotate(options);
       this.context.mapComp.map.addInteraction(this.interaction);
 
       let olEvents = Util.getEvents(this.events, this.props);
@@ -56,5 +57,5 @@ export class DragRotate extends React.Component<any, any> {
 
 DragRotate['contextTypes'] = {
   mapComp: React.PropTypes.instanceOf(Map),
-  map: React.PropTypes.instanceOf(ol.Map)
+  map: React.PropTypes.instanceOf(olMap)
 };

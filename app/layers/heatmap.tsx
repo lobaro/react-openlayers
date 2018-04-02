@@ -1,19 +1,21 @@
 import * as React from "react";
 import * as ReactDOM from "react-dom";
-import * as ol from 'openlayers';
+import olSourceStamen from "ol/source/stamen";
+import olSourceVector from "ol/source/vector";
+import olFormatKML from "ol/format/kml";
 import {
   interaction, layer, custom, control, //name spaces
   Interactions, Overlays, Controls,     //group
   Map, Layers, Overlay, Util    //objects
 } from "react-openlayers";
 
-let tileSource = new ol.source.Stamen({
+let tileSource = new olSourceStamen({
   layer: 'toner'
 });
 
-let heatmapSource = new ol.source.Vector({
+let heatmapSource = new olSourceVector({
   url: 'https://openlayers.org/en/v4.0.1/examples/data/kml/2012_Earthquakes_Mag5.kml',
-  format: new ol.format.KML({
+  format: new olFormatKML({
     extractStyles: false
   })
 });

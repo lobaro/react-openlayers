@@ -5,6 +5,7 @@ function getOptions(props: any): any {
     for(let key in props) {
       if (
         key !== 'children'
+        && key !== 'mapComp' // Exclude our React.createContext mapComp prop
         && typeof props[key] !== 'undefined' //exclude undefined ones
         && !key.match(/^on[A-Z]/)     //exclude events
       ) {

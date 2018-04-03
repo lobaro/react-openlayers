@@ -1,11 +1,10 @@
 import * as React from 'react';
-import olMap from 'ol/map';
 import olLayerVector from 'ol/layer/vector';
 import olLayerVectorTile from 'ol/layer/vectortile';
 import {Util} from "../util";
-import {Map} from '../map';
+import {MapContext, Map} from '../map';
 
-export class VectorTile extends React.Component<any, any> {
+class VectorTile extends React.Component<any, any> {
 
   layer: olLayerVectorTile;
 
@@ -59,7 +58,7 @@ export class VectorTile extends React.Component<any, any> {
     if(this.props.zIndex){
       this.layer.setZIndex(this.props.zIndex);
     }
-    this.context.mapComp.layers.push(this.layer);
+    this.props.mapComp.layers.push(this.layer);
     
     let olEvents = Util.getEvents(this.events, this.props);
     for(let eventName in olEvents) {
@@ -70,7 +69,7 @@ export class VectorTile extends React.Component<any, any> {
   componentWillReceiveProps (nextProps) {
     if(nextProps !== this.props){
       let options = Util.getOptions(Object.assign(this.options, this.props));
-      this.context.mapComp.map.removeLayer(this.layer);
+      this.props.mapComp.map.removeLayer(this.layer);
       this.layer = new olLayerVectorTile(options);
       if (this.options.callback) {
         this.options.callback(this.layer);
@@ -78,7 +77,7 @@ export class VectorTile extends React.Component<any, any> {
       if(this.props.zIndex){
         this.layer.setZIndex(this.props.zIndex);
       }
-      this.context.mapComp.map.addLayer(this.layer);
+      this.props.mapComp.map.addLayer(this.layer);
 
       let olEvents = Util.getEvents(this.events, this.props);
       for(let eventName in olEvents) {
@@ -88,12 +87,13 @@ export class VectorTile extends React.Component<any, any> {
   }
   
   componentWillUnmount () {
-    this.context.mapComp.map.removeLayer(this.layer);
+    this.props.mapComp.map.removeLayer(this.layer);
   }
 
 }
 
-VectorTile['contextTypes'] = {
-  mapComp: React.PropTypes.instanceOf(Map),
-  map: React.PropTypes.instanceOf(olMap)
-};
+export default props => (
+  <MapContext.Consumer>
+    {mapComp => <VectorTile {...props} mapComp={mapComp} />}
+  </MapContext.Consumer>
+);

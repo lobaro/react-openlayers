@@ -27,8 +27,8 @@
       "react-openlayers": ["./index"]
     },
     "typeRoots": [
+      "./node_modules/@types/",
       "./src/@types/",
-      "./node_modules/@types/"
     ]
   },
   "types": [
@@ -37,7 +37,8 @@
   ],
   "files": [
     "src/index.tsx",
-    "node_modules/@types/openlayers/index.d.ts"
+    "node_modules/@types/openlayers/index.d.ts",
+    "src/@types/index.d.ts"
   ],
   "exclude": [
     "node_modules"

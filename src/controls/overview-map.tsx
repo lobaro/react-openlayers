@@ -1,10 +1,9 @@
 import * as React from 'react';
-import olMap from 'ol/map';
 import olControlOverviewMap from 'ol/control/overviewmap';
 import {Util} from '../util';
-import {Map} from '../map';
+import {MapContext, Map} from '../map';
 
-export class OverviewMap extends React.Component<any, any> {
+class OverviewMap extends React.Component<any, any> {
 
   control: olControlOverviewMap;
 
@@ -32,7 +31,7 @@ export class OverviewMap extends React.Component<any, any> {
   componentDidMount () {
     let options = Util.getOptions(Object['assign'](this.options, this.props));
     this.control = new olControlOverviewMap(options);
-    this.context.mapComp.controls.push(this.control)
+    this.props.mapComp.controls.push(this.control)
 
     let olEvents = Util.getEvents(this.events, this.props);
     for(let eventName in olEvents) {
@@ -42,7 +41,8 @@ export class OverviewMap extends React.Component<any, any> {
 
 }
 
-OverviewMap['contextTypes'] = {
-  mapComp: React.PropTypes.instanceOf(Map),
-  map: React.PropTypes.instanceOf(olMap)
-};
+export default props => (
+  <MapContext.Consumer>
+    {mapComp => <OverviewMap {...props} mapComp={mapComp} />}
+  </MapContext.Consumer>
+);

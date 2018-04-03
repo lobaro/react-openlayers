@@ -5,7 +5,7 @@ import {Overlays} from './overlays/overlays';
 import {custom} from './custom/index';
 
 import {Map} from  './map';
-import {Overlay} from './overlay';
+import {default as Overlay} from './overlay';
 import {Util} from './util';
 
 export {

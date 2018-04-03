@@ -1,9 +1,9 @@
-import {Tile} from './tile';
-import {Vector} from './vector';
+import {default as Tile} from './tile';
+import {default as Vector} from './vector';
 import {Layers} from './layers';
-import {Heatmap} from './heatmap';
-import {Image} from './image';
-import {VectorTile} from './vector-tile';
+import {default as Heatmap} from './heatmap';
+import {default as Image} from './image';
+import {default as VectorTile} from './vector-tile';
 
 let layer = {
   Tile: Tile,

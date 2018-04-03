@@ -3,7 +3,7 @@ import * as ReactDOM from "react-dom";
 import olStyleStyle from 'ol/style/style';
 import olStyleIcon from 'ol/style/icon';
 
-export class MarkerStyle {
+class MarkerStyle {
   src: string = 'https://openlayers.org/en/v4.0.1/examples/data/icon.png';
 
   constructor(src?: string) {

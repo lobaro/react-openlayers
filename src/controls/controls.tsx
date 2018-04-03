@@ -1,6 +1,4 @@
 import * as React from 'react';
-import olMap from 'ol/map';
-
 import {Util} from '../util';
 
 // I wish I can name it as 'layers', not 'Layers'
@@ -28,7 +26,3 @@ export class Controls extends React.Component<any, any> {
 
   componentWillUnmount () {}
 }
-
-Controls['contextTypes'] = {
-  map: React.PropTypes.instanceOf(olMap)
-};

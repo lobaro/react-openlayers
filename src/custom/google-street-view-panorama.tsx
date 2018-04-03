@@ -5,8 +5,8 @@ import * as GoogleMapsLoader from 'google-maps';
 export class GoogleStreetViewPanorama extends React.Component<any, any> {
   streetView: any;
 
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
   }
 
   render() {

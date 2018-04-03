@@ -10,6 +10,8 @@ import {layer} from './layers/index';
 import './ol.css';
 import './map.css';
 
+export const MapContext = React.createContext({})
+
 /**
  * Implementation of ol.map https://openlayers.org/en/latest/apidoc/ol.Map.html
  *
@@ -115,11 +117,11 @@ export class Map extends React.Component<any, any> {
  }
   render() {
     return (
-      <div>
+      <MapContext.Provider value={this}>
         <div className="openlayers-map" ref={(el)=> this.mapDiv = el}>
           {this.props.children}
         </div>
-      </div>
+      </MapContext.Provider>
     );
   }
 
@@ -139,19 +141,4 @@ export class Map extends React.Component<any, any> {
   componentWillUnmount() {
     this.map.setTarget(undefined)
   }
-
-  // Ref. https://facebook.github.io/react/docs/context.html#how-to-use-context
-  getChildContext(): any {
-    return {
-      mapComp: this,
-      map: this.map
-    }
-  }
-
 }
-
-// Ref. https://facebook.github.io/react/docs/context.html#how-to-use-context
-Map['childContextTypes'] = {
-  mapComp: React.PropTypes.instanceOf(Map),
-  map: React.PropTypes.instanceOf(olMap)
-};

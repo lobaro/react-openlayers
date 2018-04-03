@@ -1,10 +1,9 @@
 import * as React from 'react';
-import olMap from 'ol/map';
 import olLayerImage from 'ol/layer/image';
 import {Util} from "../util";
-import {Map} from '../map';
+import {MapContext, Map} from '../map';
 
-export class Image extends React.Component<any, any> {
+class Image extends React.Component<any, any> {
 
   layer: olLayerImage;
 
@@ -45,7 +44,7 @@ export class Image extends React.Component<any, any> {
     if(this.props.zIndex){
       this.layer.setZIndex(this.props.zIndex);
     }
-    this.context.mapComp.layers.push(this.layer);
+    this.props.mapComp.layers.push(this.layer);
 
     let olEvents = Util.getEvents(this.events, this.props);
     for(let eventName in olEvents) {
@@ -56,12 +55,12 @@ export class Image extends React.Component<any, any> {
   componentWillReceiveProps (nextProps) {
     if(nextProps !== this.props){
       let options = Util.getOptions(Object.assign(this.options, this.props));
-      this.context.mapComp.map.removeLayer(this.layer);
+      this.props.mapComp.map.removeLayer(this.layer);
       this.layer = new olLayerImage(options);
       if(this.props.zIndex){
         this.layer.setZIndex(this.props.zIndex);
       }
-      this.context.mapComp.map.addLayer(this.layer);
+      this.props.mapComp.map.addLayer(this.layer);
 
       let olEvents = Util.getEvents(this.events, this.props);
       for(let eventName in olEvents) {
@@ -71,12 +70,13 @@ export class Image extends React.Component<any, any> {
   }
   
   componentWillUnmount () {
-    this.context.mapComp.map.removeLayer(this.layer);
+    this.props.mapComp.map.removeLayer(this.layer);
   }
 
 }
 
-Image['contextTypes'] = {
-  mapComp: React.PropTypes.instanceOf(Map),
-  map: React.PropTypes.instanceOf(olMap)
-};
+export default props => (
+  <MapContext.Consumer>
+    {mapComp => <Image {...props} mapComp={mapComp} />}
+  </MapContext.Consumer>
+);

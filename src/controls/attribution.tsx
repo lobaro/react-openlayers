@@ -1,10 +1,9 @@
 import * as React from 'react';
-import olMap from 'ol/map';
 import olControlAttribution from 'ol/control/attribution';
 import {Util} from '../util';
-import {Map} from '../map';
+import {MapContext, Map} from '../map';
 
-export class Attribution extends React.Component<any, any> {
+class Attribution extends React.Component<any, any> {
 
   control: olControlAttribution;
 
@@ -31,7 +30,7 @@ export class Attribution extends React.Component<any, any> {
   componentDidMount () {
     let options = Util.getOptions(Object['assign'](this.options, this.props));
     this.control = new olControlAttribution(options);
-    this.context.mapComp.controls.push(this.control)
+    this.props.mapComp.controls.push(this.control)
 
     let olEvents = Util.getEvents(this.events, this.props);
     for(let eventName in olEvents) {
@@ -41,7 +40,8 @@ export class Attribution extends React.Component<any, any> {
 
 }
 
-Attribution['contextTypes'] = {
-  mapComp: React.PropTypes.instanceOf(Map),
-  map: React.PropTypes.instanceOf(olMap)
-};
+export default props => (
+  <MapContext.Consumer>
+    {mapComp => <Attribution {...props} mapComp={mapComp} />}
+  </MapContext.Consumer>
+);

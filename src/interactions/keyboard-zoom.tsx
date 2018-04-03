@@ -1,10 +1,9 @@
 import * as React from 'react';
-import olMap from 'ol/map';
 import olInteractionKeyboardZoom from 'ol/interaction/keyboardzoom';
 import {Util} from "../util";
-import {Map} from '../map';
+import {MapContext, Map} from '../map';
 
-export class KeyboardZoom extends React.Component<any, any> {
+class KeyboardZoom extends React.Component<any, any> {
 
   interaction: olInteractionKeyboardZoom;
 
@@ -28,7 +27,7 @@ export class KeyboardZoom extends React.Component<any, any> {
     let options = Util.getOptions(Object['assign'](this.options, this.props));
     console.log('options', options);
     this.interaction = new olInteractionKeyboardZoom(options);
-    this.context.mapComp.interactions.push(this.interaction)
+    this.props.mapComp.interactions.push(this.interaction)
     
     let olEvents = Util.getEvents(this.events, this.props);
     for(let eventName in olEvents) {
@@ -38,10 +37,10 @@ export class KeyboardZoom extends React.Component<any, any> {
 
   componentWillReceiveProps (nextProps) {
     if(nextProps !== this.props){
-      this.context.mapComp.map.removeInteraction(this.interaction);
+      this.props.mapComp.map.removeInteraction(this.interaction);
       let options = Util.getOptions(Object['assign'](this.options, nextProps));
       this.interaction = new olInteractionKeyboardZoom(options);
-      this.context.mapComp.map.addInteraction(this.interaction);
+      this.props.mapComp.map.addInteraction(this.interaction);
 
       let olEvents = Util.getEvents(this.events, this.props);
       for(let eventName in olEvents) {
@@ -51,12 +50,13 @@ export class KeyboardZoom extends React.Component<any, any> {
   }
   
   componentWillUnmount () {
-    this.context.mapComp.map.removeInteraction(this.interaction);
+    this.props.mapComp.map.removeInteraction(this.interaction);
   }
 
 }
 
-KeyboardZoom['contextTypes'] = {
-  mapComp: React.PropTypes.instanceOf(Map),
-  map: React.PropTypes.instanceOf(olMap)
-};
+export default props => (
+  <MapContext.Consumer>
+    {mapComp => <KeyboardZoom {...props} mapComp={mapComp} />}
+  </MapContext.Consumer>
+);

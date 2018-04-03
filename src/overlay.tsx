@@ -1,11 +1,10 @@
 import * as React from 'react';
 import * as ReactDOM from 'react-dom';
-import olMap from 'ol/map';
 import olOverlay from 'ol/overlay';
 import {Util} from './util';
-import {Map} from './Map';
+import {MapContext, Map} from './map';
 
-export class Overlay extends React.Component<any, any> {
+class Overlay extends React.Component<any, any> {
 
   overlay: olOverlay;
   el: HTMLElement;
@@ -45,11 +44,12 @@ export class Overlay extends React.Component<any, any> {
     options.element = ReactDOM.findDOMNode(this).querySelector('div');
     // console.log('options.element', options.element);
     this.overlay = new olOverlay(options);
-    this.context.mapComp.overlays.push(this.overlay);
+    this.props.mapComp.overlays.push(this.overlay);
   }
 }
 
-Overlay['contextTypes'] = {
-  mapComp: React.PropTypes.instanceOf(Object),
-  map: React.PropTypes.instanceOf(olMap)
-};
+export default props => (
+  <MapContext.Consumer>
+    {mapComp => <Overlay {...props} mapComp={mapComp} />}
+  </MapContext.Consumer>
+);

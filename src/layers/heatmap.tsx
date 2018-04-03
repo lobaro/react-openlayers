@@ -1,10 +1,9 @@
 import * as React from 'react';
-import olMap from 'ol/map';
 import olLayerHeatmap from 'ol/layer/heatmap';
 import { Util } from "../util";
-import { Map } from '../map';
+import { MapContext, Map } from '../map';
 
-export class Heatmap extends React.Component<any, any> {
+class Heatmap extends React.Component<any, any> {
 
   layer: olLayerHeatmap;
 
@@ -50,7 +49,7 @@ export class Heatmap extends React.Component<any, any> {
     if(this.props.zIndex){
       this.layer.setZIndex(this.props.zIndex);
     }
-    this.context.mapComp.layers.push(this.layer);
+    this.props.mapComp.layers.push(this.layer);
 
     let olEvents = Util.getEvents(this.events, this.props);
     for (let eventName in olEvents) {
@@ -61,12 +60,12 @@ export class Heatmap extends React.Component<any, any> {
   componentWillReceiveProps(nextProps) {
     if (nextProps !== this.props) {
       let options = Util.getOptions(Object.assign(this.options, this.props));
-      this.context.mapComp.map.removeLayer(this.layer);
+      this.props.mapComp.map.removeLayer(this.layer);
       this.layer = new olLayerHeatmap(options);
       if (this.props.zIndex) {
         this.layer.setZIndex(this.props.zIndex);
       }
-      this.context.mapComp.map.addLayer(this.layer);
+      this.props.mapComp.map.addLayer(this.layer);
 
       let olEvents = Util.getEvents(this.events, this.props);
       for (let eventName in olEvents) {
@@ -76,12 +75,13 @@ export class Heatmap extends React.Component<any, any> {
   }
 
   componentWillUnmount() {
-    this.context.mapComp.map.removeLayer(this.layer);
+    this.props.mapComp.map.removeLayer(this.layer);
   }
 
 }
 
-Heatmap['contextTypes'] = {
-  mapComp: React.PropTypes.instanceOf(Map),
-  map: React.PropTypes.instanceOf(olMap)
-};
+export default props => (
+  <MapContext.Consumer>
+    {mapComp => <Heatmap {...props} mapComp={mapComp} />}
+  </MapContext.Consumer>
+);

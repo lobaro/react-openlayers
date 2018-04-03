@@ -1,10 +1,9 @@
 import * as React from 'react';
-import olMap from 'ol/map';
 import olControlZoomToExtent from 'ol/control/zoomtoextent';
 import {Util} from '../util';
-import {Map} from '../map';
+import {MapContext, Map} from '../map';
 
-export class ZoomToExtent extends React.Component<any, any> {
+class ZoomToExtent extends React.Component<any, any> {
 
   control: olControlZoomToExtent;
 
@@ -28,7 +27,7 @@ export class ZoomToExtent extends React.Component<any, any> {
   componentDidMount () {
     let options = Util.getOptions(Object['assign'](this.options, this.props));
     this.control = new olControlZoomToExtent(options);
-    this.context.mapComp.controls.push(this.control)
+    this.props.mapComp.controls.push(this.control)
 
     let olEvents = Util.getEvents(this.events, this.props);
     for(let eventName in olEvents) {
@@ -38,7 +37,8 @@ export class ZoomToExtent extends React.Component<any, any> {
 
 }
 
-ZoomToExtent['contextTypes'] = {
-  mapComp: React.PropTypes.instanceOf(Map),
-  map: React.PropTypes.instanceOf(olMap)
-};
+export default props => (
+  <MapContext.Consumer>
+    {mapComp => <ZoomToExtent {...props} mapComp={mapComp} />}
+  </MapContext.Consumer>
+);

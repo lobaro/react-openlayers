@@ -38,7 +38,8 @@
   "files": [
     "src/index.tsx",
     "node_modules/@types/openlayers/index.d.ts",
-    "src/@types/index.d.ts"
+    "src/@types/index.d.ts",
+    "dist/index.d.ts",
   ],
   "exclude": [
     "node_modules"

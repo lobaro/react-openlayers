@@ -3,11 +3,12 @@ import olMap from 'ol/map';
 import olView from 'ol/view';
 import olControl from 'ol/control';
 import olInteraction from 'ol/interaction';
+import olProj from "ol/proj";
 import {Util} from './util';
 import {Layers} from './layers/layers';
 import {layer} from './layers/index';
 
-import './ol.css';
+import 'ol/ol.css';
 import './map.css';
 
 export const MapContext = React.createContext({})
@@ -52,7 +53,8 @@ export class Map extends React.Component<any, any> {
     controls: undefined,
     interactions: undefined,
     layers: undefined,
-    overlays: undefined
+    overlays: undefined,
+    moveTolerance: undefined,
   };
 
   events: any = {
@@ -64,6 +66,7 @@ export class Map extends React.Component<any, any> {
     'click': undefined,
     'dblclick': undefined,
     'moveend': undefined,
+    'movestart': undefined,
     'pointerdrag': undefined,
     'pointermove': undefined,
     'postcompose': undefined,

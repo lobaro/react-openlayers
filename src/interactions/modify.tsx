@@ -10,6 +10,7 @@ class Modify extends React.Component<any, any> {
   options: any = {
     condition: undefined,
     deleteCondition: undefined,
+    insertVertexCondition: undefined,
     pixelTolerance: undefined,
     style: undefined,
     features: undefined,

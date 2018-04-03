@@ -7,7 +7,7 @@ export {Heatmap} from './heatmap';
 export {Image} from './image';
 export {VectorTile} from './vector-tile';
 export {VectorTile2} from './vector-tile-2';
-export {OSMVectorTiles} from './osm-vector-tiles';
+export {EsriVectorTiles} from './esri-vector-tiles';
 
 export class Layers extends React.Component<any, any> {
   constructor(props) {
@@ -22,7 +22,7 @@ export class Layers extends React.Component<any, any> {
           <li><Link to="layers/tile">Tile</Link></li>
           <li><Link to="layers/vector">Vector</Link></li>
           <li><Link to="layers/vector-tile">Vector Tile</Link></li>
-          <li><Link to="layers/osm-vector-tiles">OSM Vector Tiles</Link></li>
+          <li><Link to="layers/esri-vector-tiles">Esri Vector Tiles</Link></li>
           <li><Link to="layers/heatmap">Heatmap</Link></li>
           <li><Link to="layers/image">Image</Link></li>
         </ul>

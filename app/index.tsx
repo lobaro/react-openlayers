@@ -24,7 +24,7 @@ import {
   Image,
   VectorTile,
   VectorTile2,
-  OSMVectorTiles
+  EsriVectorTiles
 } from './layers';
 
 import {
@@ -86,7 +86,7 @@ ReactDOM.render((
         <Route path="image" component={Image} />
         <Route path="vector-tile" component={VectorTile} />
         <Route path="vector-tile-2" component={VectorTile2} />
-        <Route path="osm-vector-tiles" component={OSMVectorTiles} />
+        <Route path="esri-vector-tiles" component={EsriVectorTiles} />
       </Route>
       <Route path="interactions" component={Interactions}>
         <IndexRoute component={Select} />

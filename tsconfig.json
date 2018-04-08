@@ -1,52 +1,41 @@
 {
-  "compilerOptions": {
-    "target": "es5",
-    "lib": ["es5", "es6", "dom"],
-    "module": "commonjs",
-    "isolatedModules": false,
-    "moduleResolution": "node",
-    "noEmitHelpers": false,
-    "emitDecoratorMetadata": true,
-    "experimentalDecorators": true,
-    "jsx": "react",
-    "sourceMap": true,
-    "pretty": true,
-    "allowJs": true,
-    "allowUnreachableCode": true,
-    "allowUnusedLabels": true,
-    "allowSyntheticDefaultImports": true,
-    "noImplicitAny": false,
-    "noImplicitReturns": false,
-    "noImplicitUseStrict": false,
-    "noFallthroughCasesInSwitch": false,
-    "suppressExcessPropertyErrors": true,
-    "suppressImplicitAnyIndexErrors": true,
-    "outDir": "dist",
-    "baseUrl": "src",
-    "paths": {
-      "react-openlayers": ["./index"]
+    "compilerOptions": {
+        "target": "es5",
+        "lib": ["es5", "es6", "dom", "es2015"],
+        "module": "commonjs",
+        "isolatedModules": false,
+        "moduleResolution": "node",
+        "noEmitHelpers": false,
+        "emitDecoratorMetadata": true,
+        "experimentalDecorators": true,
+        "jsx": "react",
+        "pretty": true,
+        "allowJs": false,
+        "sourceMap": true,
+        "allowUnreachableCode": true,
+        "allowUnusedLabels": true,
+        "allowSyntheticDefaultImports": true,
+        "noImplicitAny": false,
+        "noImplicitReturns": false,
+        "noImplicitUseStrict": false,
+        "noFallthroughCasesInSwitch": false,
+        "suppressExcessPropertyErrors": true,
+        "suppressImplicitAnyIndexErrors": true,
+        "declaration": true,
+        "outDir": "dist",
+        "baseUrl": "src",
+        "typeRoots": ["./node_modules/@types/", "./src/@types/"],
+        "strict": false,
+        "paths": {
+            "react-openlayers": ["./index"]
+        }
     },
-    "typeRoots": [
-      "./node_modules/@types/",
-      "./src/@types/",
-    ]
-  },
-  "types": [
-    "openlayers",
-    "googlemaps"
-  ],
-  "files": [
-    "src/index.tsx",
-    "src/@types/index.d.ts",
-    "src/@types/react-openlayers.d.ts",
-  ],
-  "exclude": [
-    "node_modules"
-  ],
-  "compileOnSave": false,
-  "buildOnSave": false,
-  "angularCompilerOptions": {
-    "strictMetadataEmit": true,
-    "skipTemplateCodegen": true
-  }
+    "files": ["src/index.tsx", "src/@types/index.d.ts"],
+    "exclude": ["node_modules"],
+    "compileOnSave": false,
+    "buildOnSave": false,
+    "angularCompilerOptions": {
+        "strictMetadataEmit": true,
+        "skipTemplateCodegen": true
+    }
 }

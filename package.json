@@ -1,20 +1,21 @@
 {
-  "name": "react-openlayers",
+    "name": "react-openlayers",
   "version": "0.2.1",
-  "description": "OpenLayer React Components",
-  "license": "MIT",
-  "main": "dist/react-openlayers.umd.js",
-  "module": "dist/index.js",
-  "typings": "dist/index.d.ts",
-  "scripts": {
-    "start": "cross-env NODE_ENV=development webpack-dev-server --port 9001 --content-base app --config app/webpack.config --open",
-    "clean": "rimraf dist",
+    "description": "OpenLayer React Components",
+    "license": "MIT",
+    "main": "dist/index.js",
+    "module": "dist/index.js",
+    "types": "dist/index.d.ts",
+    "files": ["dist", "src"],
+    "scripts": {
+        "start": "cross-env NODE_ENV=development webpack-dev-server --port 9001 --content-base app --config app/webpack.config --open",
+        "clean": "rimraf dist",
     "build": "npm-run-all --serial clean build:umd build:app",
-    "build:umd": "cross-env NODE_ENV=production webpack",
-    "build:app": "cross-env NODE_ENV=production webpack --config app/webpack.config",
-    "upgrade": "npm-check-updates -a/--upgradeAll && npm i"
-  },
-  "repository": {
+        "build:umd": "cross-env NODE_ENV=production webpack",
+        "build:app": "cross-env NODE_ENV=production webpack --config app/webpack.config",
+        "upgrade": "npm-check-updates -a/--upgradeAll && npm i"
+    },
+    "repository": {
     "type": "git",
     "url": "git+https://github.com/allenhwkim/react-openlayers.git"
   },
@@ -23,17 +24,16 @@
     "url": "https://github.com/allenhwkim/react-openlayers/issues"
   },
   "homepage": "https://github.com/allenhwkim/react-openlayers#readme",
-  "keywords": [
-    "openlayer",
-    "typescript",
-    "react",
-    "map"
-  ],
+    "keywords": ["openlayer", "typescript", "react", "map"],
   "devDependencies": {
+        "@types/googlemaps": "^3.26.4",
+        "@types/ol": "^4.6.1",
     "@types/react": "^16.3.1",
     "@types/react-dom": "^16.0.4",
-    "@types/googlemaps": "^3.26.4",
-    "awesome-typescript-loader": "^4.0.1",
+        "awesome-typescript-loader": "^5.0.0",
+        "babel-cli": "^6.26.0",
+        "babel-preset-es2015": "^6.24.1",
+        "copyfiles": "^2.0.0",
     "cross-env": "^4.0.0",
     "css-loader": "^0.26.2",
     "dts-generator": "^2.1.0",

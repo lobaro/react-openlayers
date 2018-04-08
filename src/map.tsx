@@ -107,6 +107,7 @@ export class Map extends React.Component<any, any> {
     private updateCenterAndResolutionFromProps(props: any) {
         const view = this.map.getView()
 
+        // FIXME For standalone usage
         if (typeof props.view.position !== "undefined" && props.view.position.allowUpdate) {
             // The position object has declared that we need to update the map position (allowUpdate).
             // A position object is:

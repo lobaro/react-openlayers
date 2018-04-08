@@ -16,7 +16,7 @@
         "build:app": "cross-env NODE_ENV=production webpack --config app/webpack.config",
         "types": "dts-generator --name react-openlayers --project . --out dist/index.d.ts",
         "copy:static": "cp src/map.css dist/map.css && cp src/custom/popup.css dist/custom/popup.css",
-        "upgrade": "npm-check-updates -a/--upgradeAll && npm i",
+        "upgrade": "npm-check-updates -a/--upgradeAll && npm i"
     },
     "repository": {
         "type": "git",

@@ -95,6 +95,7 @@ export class Map extends React.Component<any, any> {
 
         this.map = new olMap(options)
         this.map.setTarget(options.target || this.mapDiv)
+        this.updateFromProps(this.props, /* isMounting = */ true)
 
         //regitster events
         let olEvents = Util.getEvents(this.events, this.props)
@@ -102,16 +103,60 @@ export class Map extends React.Component<any, any> {
             this.map.on(eventName, olEvents[eventName])
         }
     }
-    // update the view with new props
-    /* Modified by Harinder Randhawa */
-    componentWillReceiveProps(nextProps) {
-        if (this.props.view && nextProps.view.center !== this.props.view.center) {
-            this.map.getView().setCenter(nextProps.view.center)
-        }
-        if (this.props.view && nextProps.view.zoom !== this.props.view.zoom) {
-            this.map.getView().setZoom(nextProps.view.zoom)
+
+    private updateCenterAndResolutionFromProps(props: any) {
+        const view = this.map.getView()
+
+        if (typeof props.view.position !== "undefined" && props.view.position.allowUpdate) {
+            // The position object has declared that we need to update the map position (allowUpdate).
+            // A position object is:
+            // {
+            //   zoom: Number = Required
+            //   extent: ol.Extent = Optional
+            //   center: ol.Coordinate = Optional
+            // }
+            if (typeof props.view.position.extent !== "undefined") {
+                view.fit(props.view.position.extent, { size: this.map.getSize(), maxZoom: props.view.position.zoom })
+            } else if (typeof props.view.position.center !== "undefined" && typeof props.view.position.zoom !== "undefined") {
+                view.setCenter(props.view.position.center)
+                view.setZoom(props.view.position.zoom)
+            }
+        } else {
+            // Only used at mount time
+            view.setCenter(props.view.center)
+            if (typeof props.view.resolution !== "undefined") {
+                view.setResolution(props.view.resolution)
+            } else if (typeof props.view.zoom !== "undefined") {
+                view.setZoom(props.view.zoom)
+            }
         }
     }
+
+    private updateFromProps(props: any, isMounting: boolean) {
+        if (isMounting || props.view.position.allowUpdate) {
+            // Update the center and the resolution of the view only when it is
+            // mounted the first time but not when the properties are updated.
+            // *Unless* we're passed a position object that explicitly declares
+            // that we need to update.
+            this.updateCenterAndResolutionFromProps(props)
+        }
+    }
+
+    // update the view with new props
+    /* Modified by Harinder Randhawa */
+    componentWillReceiveProps(nextProps: any) {
+        this.updateFromProps(nextProps, false)
+
+        // if (this.props.view && nextProps.view.center !== this.props.view.center) {
+        //     console.log("map->componentWillReceiveProps->setCenter", nextProps.view.center, this.props.view.center)
+        //     this.map.getView().setCenter(nextProps.view.center)
+        // }
+        // if (this.props.view && nextProps.view.zoom !== this.props.view.zoom) {
+        //     console.log("map->componentWillReceiveProps->setZoom", nextProps.view.zoom, this.props.view.zoom)
+        //     this.map.getView().setZoom(nextProps.view.zoom)
+        // }
+    }
+
     render() {
         return (
             <MapContext.Provider value={this}>

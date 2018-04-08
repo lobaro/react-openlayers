@@ -67,21 +67,37 @@ class VectorTile extends React.Component<any, any> {
 
     componentWillReceiveProps(nextProps) {
         if (nextProps !== this.props) {
-            let options = Util.getOptions(Object.assign(this.options, this.props))
-            this.props.mapComp.map.removeLayer(this.layer)
-            this.layer = new olLayerVectorTile(options)
-            if (this.options.callback) {
-                this.options.callback(this.layer)
+            if ("visible" in nextProps && nextProps.visible !== this.props.visible) {
+                this.layer.setVisible(nextProps.visible)
             }
-            if (this.props.zIndex) {
-                this.layer.setZIndex(this.props.zIndex)
+            if ("zIndex" in nextProps && nextProps.zIndex !== this.props.zIndex) {
+                this.layer.setZIndex(nextProps.zIndex)
             }
-            this.props.mapComp.map.addLayer(this.layer)
+            if ("style" in nextProps && nextProps.style !== this.props.style) {
+                this.layer.setStyle(nextProps.style)
+            }
+            if ("opacity" in nextProps && nextProps.opacity !== this.props.opacity) {
+                this.layer.setOpacity(nextProps.opacity)
+            }
+            if ("properties" in nextProps && nextProps.properties !== undefined) {
+                this.layer.setProperties(nextProps.properties, /* opt_silent */ true)
+            }
 
-            let olEvents = Util.getEvents(this.events, this.props)
-            for (let eventName in olEvents) {
-                this.layer.on(eventName, olEvents[eventName])
-            }
+            // let options = Util.getOptions(Object.assign(this.options, this.props))
+            // this.props.mapComp.map.removeLayer(this.layer)
+            // this.layer = new olLayerVectorTile(options)
+            // if (this.options.callback) {
+            //     this.options.callback(this.layer)
+            // }
+            // if (this.props.zIndex) {
+            //     this.layer.setZIndex(this.props.zIndex)
+            // }
+            // this.props.mapComp.map.addLayer(this.layer)
+
+            // let olEvents = Util.getEvents(this.events, this.props)
+            // for (let eventName in olEvents) {
+            //     this.layer.on(eventName, olEvents[eventName])
+            // }
         }
     }
 

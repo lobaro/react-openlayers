@@ -63,24 +63,37 @@ class Tile extends React.Component<any, any> {
 
     componentWillReceiveProps(nextProps) {
         if (nextProps !== this.props) {
-            let options = Util.getOptions(Object.assign(this.options, this.props))
-            this.props.mapComp.map.add
-            this.props.mapComp.map.removeLayer(this.layer)
-            this.layer = new olLayerTile(options)
-            if (this.props.zIndex) {
-                this.layer.setZIndex(this.props.zIndex)
+            if ("visible" in nextProps && nextProps.visible !== this.props.visible) {
+                this.layer.setVisible(nextProps.visible)
             }
-            this.props.mapComp.map.addLayer(this.layer)
+            if ("zIndex" in nextProps && nextProps.zIndex !== this.props.zIndex) {
+                this.layer.setZIndex(nextProps.zIndex)
+            }
+            if ("opacity" in nextProps && nextProps.opacity !== this.props.opacity) {
+                this.layer.setOpacity(nextProps.opacity)
+            }
+            if ("properties" in nextProps && nextProps.properties !== undefined) {
+                this.layer.setProperties(nextProps.properties, /* opt_silent */ true)
+            }
 
-            let olEvents = Util.getEvents(this.events, this.props)
-            for (let eventName in olEvents) {
-                this.layer.on(eventName, olEvents[eventName])
-            }
+            // let options = Util.getOptions(Object.assign(this.options, this.props))
+            // this.props.mapComp.map.add
+            // this.props.mapComp.map.removeLayer(this.layer)
+            // this.layer = new olLayerTile(options)
+            // if (this.props.zIndex) {
+            //     this.layer.setZIndex(this.props.zIndex)
+            // }
+            // this.props.mapComp.map.addLayer(this.layer)
+
+            // let olEvents = Util.getEvents(this.events, this.props)
+            // for (let eventName in olEvents) {
+            //     this.layer.on(eventName, olEvents[eventName])
+            // }
         }
     }
 
     componentWillUnmount() {
-        // this.props.mapComp.map.removeLayer(this.layer);
+        this.props.mapComp.map.removeLayer(this.layer)
     }
 }
 

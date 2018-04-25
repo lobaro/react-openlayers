@@ -72,6 +72,10 @@ var VectorTile = /** @class */ (function (_super) {
             this.layer.setZIndex(this.props.zIndex);
         }
         this.props.mapComp.layers.push(this.layer);
+        // If the map has already been mounted then we need to manually add the layer to the OL Map
+        if ("map" in this.props.mapComp) {
+            this.props.mapComp.map.addLayer(this.layer);
+        }
         var olEvents = util_1.Util.getEvents(this.events, this.props);
         for (var eventName in olEvents) {
             this.layer.on(eventName, olEvents[eventName]);

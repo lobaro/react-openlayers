@@ -57,7 +57,12 @@ class VectorTile extends React.Component<any, any> {
         if (this.props.zIndex) {
             this.layer.setZIndex(this.props.zIndex)
         }
+
         this.props.mapComp.layers.push(this.layer)
+        // If the map has already been mounted then we need to manually add the layer to the OL Map
+        if ("map" in this.props.mapComp) {
+            this.props.mapComp.map.addLayer(this.layer)
+        }
 
         let olEvents = Util.getEvents(this.events, this.props)
         for (let eventName in olEvents) {

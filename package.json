@@ -1,6 +1,6 @@
 {
     "name": "react-openlayers",
-    "version": "0.2.4",
+    "version": "0.2.5",
     "description": "OpenLayer React Components",
     "license": "MIT",
     "main": "dist/index.js",
@@ -16,6 +16,9 @@
         "build:app": "cross-env NODE_ENV=production webpack --config app/webpack.config",
         "types": "dts-generator --name react-openlayers --project . --out dist/index.d.ts",
         "copy:static": "cp src/map.css dist/map.css && cp src/custom/popup.css dist/custom/popup.css",
+        "packy": "npm pack && mv react-openlayers-0.2.1.tgz /Users/keithmoss/Downloads/react-openlayers-0.2.1.tgz",
+        "wml:add": "wml add ./ /Users/keithmoss/Documents/Work/GitHub/ealgis-yarn/frontend/node_modules/react-openlayers",
+        "wml:start": "wml start",
         "upgrade": "npm-check-updates -a/--upgradeAll && npm i"
     },
     "repository": {

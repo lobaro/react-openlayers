@@ -82,8 +82,8 @@ var VectorTile = /** @class */ (function (_super) {
             if ("visible" in nextProps && nextProps.visible !== this.props.visible) {
                 this.layer.setVisible(nextProps.visible);
             }
-            if ("zIndex" in nextProps && nextProps.zIndex !== this.props.zIndex) {
-                this.layer.setZIndex(nextProps.zIndex);
+            if ("extent" in nextProps && nextProps.extent !== this.props.extent) {
+                this.layer.setExtent(nextProps.extent);
             }
             if ("style" in nextProps && nextProps.style !== this.props.style) {
                 this.layer.setStyle(nextProps.style);
@@ -93,6 +93,12 @@ var VectorTile = /** @class */ (function (_super) {
             }
             if ("properties" in nextProps && nextProps.properties !== undefined) {
                 this.layer.setProperties(nextProps.properties, /* opt_silent */ true);
+            }
+            if ("source" in nextProps && nextProps.source !== this.props.source) {
+                this.layer.setSource(nextProps.source);
+            }
+            if ("zIndex" in nextProps && nextProps.zIndex !== this.props.zIndex) {
+                this.layer.setZIndex(nextProps.zIndex);
             }
             // let options = Util.getOptions(Object.assign(this.options, this.props))
             // this.props.mapComp.map.removeLayer(this.layer)

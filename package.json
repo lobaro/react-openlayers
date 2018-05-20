@@ -1,6 +1,6 @@
 {
     "name": "react-openlayers",
-    "version": "0.2.5",
+    "version": "0.2.6",
     "description": "OpenLayer React Components",
     "license": "MIT",
     "main": "dist/index.js",
@@ -16,7 +16,7 @@
         "build:app": "cross-env NODE_ENV=production webpack --config app/webpack.config",
         "types": "dts-generator --name react-openlayers --project . --out dist/index.d.ts",
         "copy:static": "cp src/map.css dist/map.css && cp src/custom/popup.css dist/custom/popup.css",
-        "packy": "npm pack && mv react-openlayers-0.2.1.tgz /Users/keithmoss/Downloads/react-openlayers-0.2.1.tgz",
+        "packy": "npm pack && mv react-openlayers-0.2.6.tgz /Users/keithmoss/Downloads/react-openlayers-0.2.6.tgz",
         "wml:add": "wml add ./ /Users/keithmoss/Documents/Work/GitHub/ealgis-yarn/frontend/node_modules/react-openlayers",
         "wml:start": "wml start",
         "upgrade": "npm-check-updates -a/--upgradeAll && npm i"
@@ -34,7 +34,7 @@
     "devDependencies": {
         "@types/googlemaps": "^3.26.4",
         "@types/ol": "^4.6.1",
-        "@types/react": "^16.3.1",
+        "@types/react": "^16.3.11",
         "@types/react-dom": "^16.0.4",
         "awesome-typescript-loader": "^5.0.0",
         "babel-cli": "^6.26.0",

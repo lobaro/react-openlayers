@@ -105,10 +105,10 @@ export class Map extends React.Component<any, any> {
     }
 
     private updateCenterAndResolutionFromProps(props: any) {
-        const view = this.map.getView()
+        const view = this.map.getView();
 
         // FIXME For standalone usage
-        if (typeof props.view.position !== "undefined" && props.view.position.allowUpdate) {
+        if (props.view && props.view.position && props.view.position.allowUpdate) {
             // The position object has declared that we need to update the map position (allowUpdate).
             // A position object is:
             // {
@@ -122,7 +122,7 @@ export class Map extends React.Component<any, any> {
                 view.setCenter(props.view.position.center)
                 view.setZoom(props.view.position.zoom)
             }
-        } else {
+        } else if (props.view) {
             // Only used at mount time
             view.setCenter(props.view.center)
             if (typeof props.view.resolution !== "undefined") {
@@ -134,7 +134,7 @@ export class Map extends React.Component<any, any> {
     }
 
     private updateFromProps(props: any, isMounting: boolean) {
-        if (isMounting || props.view.position.allowUpdate) {
+        if (isMounting || (props.view && props.view.position && props.view.position.allowUpdate)) {
             // Update the center and the resolution of the view only when it is
             // mounted the first time but not when the properties are updated.
             // *Unless* we're passed a position object that explicitly declares

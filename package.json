@@ -6,7 +6,10 @@
     "main": "dist/index.js",
     "module": "dist/index.js",
     "types": "dist/index.d.ts",
-    "files": ["dist", "src"],
+    "files": [
+        "dist",
+        "src"
+    ],
     "scripts": {
         "start": "cross-env NODE_ENV=development webpack-dev-server --port 9001 --content-base app --config app/webpack.config --open",
         "clean": "rimraf dist",
@@ -30,7 +33,12 @@
         "url": "https://github.com/allenhwkim/react-openlayers/issues"
     },
     "homepage": "https://github.com/allenhwkim/react-openlayers#readme",
-    "keywords": ["openlayer", "typescript", "react", "map"],
+    "keywords": [
+        "openlayer",
+        "typescript",
+        "react",
+        "map"
+    ],
     "devDependencies": {
         "@types/googlemaps": "^3.26.4",
         "@types/ol": "^4.6.1",

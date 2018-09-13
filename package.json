@@ -1,5 +1,5 @@
 {
-    "name": "react-openlayers",
+    "name": "@lobaro/react-openlayers",
     "version": "0.2.6",
     "description": "OpenLayer React Components",
     "license": "MIT",

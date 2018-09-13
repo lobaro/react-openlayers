@@ -1,6 +1,8 @@
 import * as React from "react";
 import * as ReactDOM from "react-dom";
-import * as ol from 'openlayers';
+import olProjection from "ol/proj/projection";
+import olExtent from "ol/extent";
+import olSourceImageStatic from "ol/source/imagestatic";
 import {
   interaction, layer, custom, control, //name spaces
   Interactions, Overlays, Controls,     //group
@@ -8,18 +10,18 @@ import {
 } from "react-openlayers";
 
 var extent: any = [0, 0, 1024, 968];
-var projection = new ol.proj.Projection({
+var projection = new olProjection({
   code: 'xkcd-image',
   units: 'pixels',
   extent: extent
 });
 var view = {
   projection: projection,
-  center: ol.extent.getCenter(extent),
+  center: olExtent.getCenter(extent),
   zoom: 2,
   maxZoom: 9
 };
-var imageSource = new ol.source.ImageStatic({
+var imageSource = new olSourceImageStatic({
   attributions: '© <a href="http://xkcd.com/license.html">xkcd</a>',
   url: 'https://imgs.xkcd.com/comics/online_communities.png',
   projection: projection,

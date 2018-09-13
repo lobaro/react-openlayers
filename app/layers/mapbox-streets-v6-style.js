@@ -1,21 +1,25 @@
 // Styles for the mapbox-streets-v6 vector tile data set. Loosely based on
 // http://a.tiles.mapbox.com/v4/mapbox.mapbox-streets-v6.json
-import * as ol from 'openlayers';
+import olStyleStyle from "ol/style/style";
+import olStyleFill from "ol/style/fill";
+import olStyleStroke from "ol/style/stroke";
+import olStyleIcon from "ol/style/icon";
+import olStyleText from "ol/style/text";
 
 export function createMapboxStreetsV6Style() {
-  var fill = new ol.style.Fill({color: ''});
-  var stroke = new ol.style.Stroke({color: '', width: 1});
-  var polygon = new ol.style.Style({fill: fill});
-  var strokedPolygon = new ol.style.Style({fill: fill, stroke: stroke});
-  var line = new ol.style.Style({stroke: stroke});
-  var text = new ol.style.Style({text: new ol.style.Text({
+  var fill = new olStyleFill({color: ''});
+  var stroke = new olStyleStroke({color: '', width: 1});
+  var polygon = new olStyleStyle({fill: fill});
+  var strokedPolygon = new olStyleStyle({fill: fill, stroke: stroke});
+  var line = new olStyleStyle({stroke: stroke});
+  var text = new olStyleStyle({text: new olStyleText({
     text: '', fill: fill, stroke: stroke
   })});
   var iconCache = {};
   function getIcon(iconName) {
     var icon = iconCache[iconName];
     if (!icon) {
-      icon = new ol.style.Style({image: new ol.style.Icon({
+      icon = new olStyleStyle({image: new olStyleIcon({
         src: 'https://cdn.rawgit.com/mapbox/maki/master/icons/' + iconName + '-15.svg',
         imgSize: [15, 15]
       })});

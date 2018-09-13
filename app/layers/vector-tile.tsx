@@ -1,6 +1,8 @@
 import * as React from "react";
 import * as ReactDOM from "react-dom";
-import * as ol from 'openlayers';
+import olSoureVectorTile from "ol/source/vectortile";
+import olFormatMVT from "ol/format/mvt";
+import olTileGrid from "ol/tilegrid";
 import * as olms from 'ol-mapbox-style'; // in case we use olms
 import * as qwest from 'qwest';          // in case we need to do ajax call
 import {
@@ -12,13 +14,13 @@ import {
 import {createMapboxStreetsV6Style} from './mapbox-streets-v6-style';
 
 var key = 'pk.eyJ1IjoiYWxsZW5od2tpbSIsImEiOiJjajBlbzkzazYwMWh1Mndya3R2amw0ang1In0.QU0YtPQ0-IgHMLt574HGlw';
-var source = new ol.source.VectorTile({
+var source = new olSoureVectorTile({
   projection: undefined,
   attributions: '© <a href="https://www.mapbox.com/map-feedback/">Mapbox</a> ' +
     '© <a href="https://www.openstreetmap.org/copyright">' +
     'OpenStreetMap contributors</a>',
-  format: new ol.format.MVT(),
-  tileGrid: ol.tilegrid.createXYZ({maxZoom: 22}),
+  format: new olFormatMVT(),
+  tileGrid: olTileGrid.createXYZ({maxZoom: 22}),
   tilePixelRatio: 16,
   url: 'https://{a-d}.tiles.mapbox.com/v4/mapbox.mapbox-streets-v6/' +
       '{z}/{x}/{y}.vector.pbf?access_token=' + key

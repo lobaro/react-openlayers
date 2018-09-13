@@ -1,89 +1,100 @@
-import * as React from 'react';
-import * as ol from 'openlayers';
-import {Util} from '../util';
-import {Map} from '../map';
+import * as React from "react"
 
-export class Tile extends React.Component<any, any> {
+import olSourceOSM from "ol/source/osm"
+import olLayerTile from "ol/layer/tile"
 
-  layer: ol.layer.Tile;
+import { Util } from "../util"
+import { MapContext, Map } from "../map"
 
-  options: any = {
-    zIndex: undefined,
-    opacity: undefined,
-    preload: undefined,
-    source: undefined,
-    visible: undefined,
-    extent: undefined,
-    minResolution: undefined,
-    maxResolution: undefined,
-    useInterimTilesOnError: undefined
-  };
+class Tile extends React.Component<any, any> {
+    layer: olLayerTile
 
-  events: any = {
-    'change': undefined,
-    'change:extent': undefined,
-    'change:maxResolution': undefined,
-    'change:minResolution': undefined,
-    'change:opacity': undefined,
-    'change:preload': undefined,
-    'change:source': undefined,
-    'change:useInterimTilesOnError': undefined,
-    'change:visible': undefined,
-    'change:zIndex': undefined,
-    'postcompose': undefined,
-    'precompose': undefined,
-    'propertychange': undefined,
-    'render': undefined
-  };
-
-  constructor(props) {
-    super(props);
-    console.log('Tile constructor');
-  }
-
-  render() {
-    return null;
-  }
-
-  componentDidMount () {
-    let options = Util.getOptions(Object.assign(this.options, this.props));
-    options.source = options.source || new ol.source.OSM();
-    this.layer = new ol.layer.Tile(options);
-    if(this.props.zIndex){
-      this.layer.setZIndex(this.props.zIndex);
+    options: any = {
+        zIndex: undefined,
+        opacity: undefined,
+        preload: undefined,
+        source: undefined,
+        visible: undefined,
+        extent: undefined,
+        minResolution: undefined,
+        maxResolution: undefined,
+        useInterimTilesOnError: undefined,
     }
-    this.context.mapComp.layers.push(this.layer)
 
-    let olEvents = Util.getEvents(this.events, this.props);
-    for(let eventName in olEvents) {
-      this.layer.on(eventName, olEvents[eventName]);
+    events: any = {
+        change: undefined,
+        "change:extent": undefined,
+        "change:maxResolution": undefined,
+        "change:minResolution": undefined,
+        "change:opacity": undefined,
+        "change:preload": undefined,
+        "change:source": undefined,
+        "change:useInterimTilesOnError": undefined,
+        "change:visible": undefined,
+        "change:zIndex": undefined,
+        postcompose: undefined,
+        precompose: undefined,
+        propertychange: undefined,
+        render: undefined,
     }
-  }
 
-  componentWillReceiveProps (nextProps) {
-    if(nextProps !== this.props){
-      let options = Util.getOptions(Object.assign(this.options, this.props));
-      this.context.mapComp.map.removeLayer(this.layer);
-      this.layer = new ol.layer.Tile(options);
-      if(this.props.zIndex){
-        this.layer.setZIndex(this.props.zIndex);
-      }
-      this.context.mapComp.map.addLayer(this.layer);
-
-      let olEvents = Util.getEvents(this.events, this.props);
-      for(let eventName in olEvents) {
-        this.layer.on(eventName, olEvents[eventName]);
-      }
+    constructor(props) {
+        super(props)
     }
-  }
-  
-  componentWillUnmount () {
-    this.context.mapComp.map.removeLayer(this.layer);
-  }
 
+    render() {
+        return null
+    }
+
+    componentDidMount() {
+        let options = Util.getOptions(Object.assign(this.options, this.props))
+        options.source = options.source || new olSourceOSM()
+        this.layer = new olLayerTile(options)
+        if (this.props.zIndex) {
+            this.layer.setZIndex(this.props.zIndex)
+        }
+        this.props.mapComp.layers.push(this.layer)
+
+        let olEvents = Util.getEvents(this.events, this.props)
+        for (let eventName in olEvents) {
+            this.layer.on(eventName, olEvents[eventName])
+        }
+    }
+
+    componentWillReceiveProps(nextProps) {
+        if (nextProps !== this.props) {
+            if ("visible" in nextProps && nextProps.visible !== this.props.visible) {
+                this.layer.setVisible(nextProps.visible)
+            }
+            if ("zIndex" in nextProps && nextProps.zIndex !== this.props.zIndex) {
+                this.layer.setZIndex(nextProps.zIndex)
+            }
+            if ("opacity" in nextProps && nextProps.opacity !== this.props.opacity) {
+                this.layer.setOpacity(nextProps.opacity)
+            }
+            if ("properties" in nextProps && nextProps.properties !== undefined) {
+                this.layer.setProperties(nextProps.properties, /* opt_silent */ true)
+            }
+
+            // let options = Util.getOptions(Object.assign(this.options, this.props))
+            // this.props.mapComp.map.add
+            // this.props.mapComp.map.removeLayer(this.layer)
+            // this.layer = new olLayerTile(options)
+            // if (this.props.zIndex) {
+            //     this.layer.setZIndex(this.props.zIndex)
+            // }
+            // this.props.mapComp.map.addLayer(this.layer)
+
+            // let olEvents = Util.getEvents(this.events, this.props)
+            // for (let eventName in olEvents) {
+            //     this.layer.on(eventName, olEvents[eventName])
+            // }
+        }
+    }
+
+    componentWillUnmount() {
+        this.props.mapComp.map.removeLayer(this.layer)
+    }
 }
 
-Tile['contextTypes'] = {
-  mapComp: React.PropTypes.instanceOf(Map),
-  map: React.PropTypes.instanceOf(ol.Map)
-};
+export default props => <MapContext.Consumer>{mapComp => <Tile {...props} mapComp={mapComp} />}</MapContext.Consumer>

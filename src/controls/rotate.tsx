@@ -1,46 +1,45 @@
-import * as React from 'react';
-import * as ol from 'openlayers';
-import {Util} from '../util';
-import {Map} from '../map';
+import * as React from "react"
+import olControlRotate from "ol/control/rotate"
+import { Util } from "../util"
+import { MapContext, Map } from "../map"
 
-export class Rotate extends React.Component<any, any> {
+class Rotate extends React.Component<any, any> {
+    control: olControlRotate
 
-  control: ol.control.Rotate;
-
-  options: any = {
-    className: undefined,
-    label: undefined,
-    tipLabel  : undefined,
-    duration: undefined,
-    autoHide: undefined,
-    render: undefined,
-    resetNorth: undefined,
-    target: undefined
-  };
-
-  events: any = {
-    'change': undefined,
-    'propertychange': undefined
-  };
-
-  constructor(props) { super(props); }
-
-  render() { return null; }
-
-  componentDidMount () {
-    let options = Util.getOptions(Object['assign'](this.options, this.props));
-    this.control = new ol.control.Rotate(options);
-    this.context.mapComp.controls.push(this.control)
-
-    let olEvents = Util.getEvents(this.events, this.props);
-    for(let eventName in olEvents) {
-      this.control.on(eventName, olEvents[eventName]);
+    options: any = {
+        className: undefined,
+        label: undefined,
+        tipLabel: undefined,
+        duration: undefined,
+        autoHide: undefined,
+        render: undefined,
+        resetNorth: undefined,
+        target: undefined,
     }
-  }
 
+    events: any = {
+        change: undefined,
+        propertychange: undefined,
+    }
+
+    constructor(props) {
+        super(props)
+    }
+
+    render() {
+        return null
+    }
+
+    componentDidMount() {
+        let options = Util.getOptions(Object["assign"](this.options, this.props))
+        this.control = new olControlRotate(options)
+        this.props.mapComp.controls.push(this.control)
+
+        let olEvents = Util.getEvents(this.events, this.props)
+        for (let eventName in olEvents) {
+            this.control.on(eventName, olEvents[eventName])
+        }
+    }
 }
 
-Rotate['contextTypes'] = {
-  mapComp: React.PropTypes.instanceOf(Map),
-  map: React.PropTypes.instanceOf(ol.Map)
-};
+export default props => <MapContext.Consumer>{mapComp => <Rotate {...props} mapComp={mapComp} />}</MapContext.Consumer>

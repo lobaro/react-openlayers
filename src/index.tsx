@@ -4,7 +4,7 @@ import { Layers, layer } from "./layers/index"
 import { Overlays } from "./overlays/overlays"
 import { custom } from "./custom/index"
 
-import { Map } from "./map"
+import { Map, MapContext } from "./map"
 import { default as Overlay } from "./overlay"
 import { Util } from "./util"
 
@@ -23,4 +23,5 @@ export {
     Map,
     Overlay,
     Util,
+    MapContext,
 }

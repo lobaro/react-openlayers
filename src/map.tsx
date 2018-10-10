@@ -7,7 +7,7 @@ import * as React from "react"
 import "./map.css"
 import { Util } from "./util"
 
-export const MapContext = React.createContext({})
+export const MapContext = React.createContext({});
 
 /**
  * Implementation of ol.map https://openlayers.org/en/latest/apidoc/ol.Map.html
@@ -24,13 +24,13 @@ export const MapContext = React.createContext({})
  * </Map>
  */
 export class Map extends React.Component<any, any> {
-    map: olMap
-    mapDiv: any
+    map: olMap;
+    mapDiv: any;
 
-    layers: any[] = []
-    interactions: any[] = []
-    controls: any[] = []
-    overlays: any[] = []
+    layers: any[] = [];
+    interactions: any[] = [];
+    controls: any[] = [];
+    overlays: any[] = [];
 
     options: any = {
         pixelRation: undefined,
@@ -50,7 +50,7 @@ export class Map extends React.Component<any, any> {
         layers: undefined,
         overlays: undefined,
         moveTolerance: undefined,
-    }
+    };
 
     events: any = {
         change: undefined,
@@ -69,38 +69,42 @@ export class Map extends React.Component<any, any> {
         precompose: undefined,
         propertychange: undefined,
         singleclick: undefined,
-    }
+    };
 
     /**
      * Component mounting LifeCycle; constructor, componentDidMount, and render
      * https://facebook.github.io/react/docs/react-component.html#mounting
      */
     constructor(props) {
-        super(props)
-        this.mapDiv = React.createRef()
+        super(props);
+        this.mapDiv = React.createRef();
     }
 
     componentDidMount() {
-        let options = Util.getOptions(Object.assign(this.options, this.props))
-        !(options.view instanceof olView) && (options.view = new olView(options.view))
+        console.log("Loading props:", this.props);
+        let options = Util.getOptions(Object.assign(this.options, this.props));
+        !(options.view instanceof olView) && (options.view = new olView(options.view));
 
-        let controlsCmp = Util.findChild(this.props.children, "Controls") || {}
-        let interactionsCmp = Util.findChild(this.props.children, "Interactions") || {}
 
-        options.controls = olControl.defaults(controlsCmp.props).extend(this.controls)
-        options.interactions = olInteraction.defaults(interactionsCmp.props).extend(this.interactions)
+        console.log("Loaded view:", options);
 
-        options.layers = this.layers
-        options.overlays = this.overlays
+        let controlsCmp = Util.findChild(this.props.children, "Controls") || {};
+        let interactionsCmp = Util.findChild(this.props.children, "Interactions") || {};
 
-        this.map = new olMap(options)
-        this.map.setTarget(options.target || this.mapDiv)
-        this.updateFromProps(this.props, /* isMounting = */ true)
+        options.controls = olControl.defaults(controlsCmp.props).extend(this.controls);
+        options.interactions = olInteraction.defaults(interactionsCmp.props).extend(this.interactions);
+
+        options.layers = this.layers;
+        options.overlays = this.overlays;
+
+        this.map = new olMap(options);
+        this.map.setTarget(options.target || this.mapDiv);
+        this.updateFromProps(this.props, /* isMounting = */ true);
 
         //regitster events
-        let olEvents = Util.getEvents(this.events, this.props)
+        let olEvents = Util.getEvents(this.events, this.props);
         for (let eventName in olEvents) {
-            this.map.on(eventName, olEvents[eventName])
+            this.map.on(eventName, olEvents[eventName]);
         }
     }
 
@@ -159,9 +163,10 @@ export class Map extends React.Component<any, any> {
     }
 
     render() {
+        console.log("rendering open layer map", this.props);
         return (
             <MapContext.Provider value={this}>
-                <div className="openlayers-map" ref={el => (this.mapDiv = el)}>
+                <div className="openlayers-map" style={this.props.rootStyle} ref={el => (this.mapDiv = el)}>
                     {this.props.children}
                 </div>
             </MapContext.Provider>

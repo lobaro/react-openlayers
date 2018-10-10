@@ -15,6 +15,7 @@ var index_4 = require("./custom/index");
 exports.custom = index_4.custom;
 var map_1 = require("./map");
 exports.Map = map_1.Map;
+exports.MapContext = map_1.MapContext;
 var overlay_1 = require("./overlay");
 exports.Overlay = overlay_1.default;
 var util_1 = require("./util");

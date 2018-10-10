@@ -86,8 +86,10 @@ var Map = /** @class */ (function (_super) {
         return _this;
     }
     Map.prototype.componentDidMount = function () {
+        console.log("Loading props:", this.props);
         var options = util_1.Util.getOptions(Object.assign(this.options, this.props));
         !(options.view instanceof view_1.default) && (options.view = new view_1.default(options.view));
+        console.log("Loaded view:", options);
         var controlsCmp = util_1.Util.findChild(this.props.children, "Controls") || {};
         var interactionsCmp = util_1.Util.findChild(this.props.children, "Interactions") || {};
         options.controls = control_1.default.defaults(controlsCmp.props).extend(this.controls);
@@ -106,7 +108,7 @@ var Map = /** @class */ (function (_super) {
     Map.prototype.updateCenterAndResolutionFromProps = function (props) {
         var view = this.map.getView();
         // FIXME For standalone usage
-        if (typeof props.view.position !== "undefined" && props.view.position.allowUpdate) {
+        if (props.view && props.view.position && props.view.position.allowUpdate) {
             // The position object has declared that we need to update the map position (allowUpdate).
             // A position object is:
             // {
@@ -122,7 +124,7 @@ var Map = /** @class */ (function (_super) {
                 view.setZoom(props.view.position.zoom);
             }
         }
-        else {
+        else if (props.view) {
             // Only used at mount time
             view.setCenter(props.view.center);
             if (typeof props.view.resolution !== "undefined") {
@@ -134,7 +136,7 @@ var Map = /** @class */ (function (_super) {
         }
     };
     Map.prototype.updateFromProps = function (props, isMounting) {
-        if (isMounting || props.view.position.allowUpdate) {
+        if (isMounting || (props.view && props.view.position && props.view.position.allowUpdate)) {
             // Update the center and the resolution of the view only when it is
             // mounted the first time but not when the properties are updated.
             // *Unless* we're passed a position object that explicitly declares
@@ -157,8 +159,9 @@ var Map = /** @class */ (function (_super) {
     };
     Map.prototype.render = function () {
         var _this = this;
+        console.log("rendering open layer map", this.props);
         return (React.createElement(exports.MapContext.Provider, { value: this },
-            React.createElement("div", { className: "openlayers-map", ref: function (el) { return (_this.mapDiv = el); } }, this.props.children)));
+            React.createElement("div", { className: "openlayers-map", style: this.props.rootStyle, ref: function (el) { return (_this.mapDiv = el); } }, this.props.children)));
     };
     /**
      * Component Updating LifeCycle

@@ -6,6 +6,8 @@ import olView from "ol/view"
 import * as React from "react"
 import "./map.css"
 import { Util } from "./util"
+import {Controls} from "./controls";
+import {Interactions} from "./interactions";
 
 export const MapContext = React.createContext({});
 
@@ -88,8 +90,8 @@ export class Map extends React.Component<any, any> {
 
         console.log("Loaded view:", options);
 
-        let controlsCmp = Util.findChild(this.props.children, "Controls") || {};
-        let interactionsCmp = Util.findChild(this.props.children, "Interactions") || {};
+        let controlsCmp = Util.findChild(this.props.children, Controls) || {};
+        let interactionsCmp = Util.findChild(this.props.children, Interactions) || {};
 
         options.controls = olControl.defaults(controlsCmp.props).extend(this.controls);
         options.interactions = olInteraction.defaults(interactionsCmp.props).extend(this.interactions);
